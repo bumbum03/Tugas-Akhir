@@ -18,14 +18,14 @@ declare module "vue-router" {
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        redirect: "/dashboard",
+        redirect: "/landing/dashboard",
         component: () => import("@/layouts/default-layout/DefaultLayout.vue"),
         meta: {
             middleware: "auth",
         },
         children: [
             {
-                path: "/dashboard",
+                path: "/admin/dashboard",
                 name: "dashboard",
                 component: () => import("@/pages/dashboard/Index.vue"),
                 meta: {
@@ -73,7 +73,55 @@ const routes: Array<RouteRecordRaw> = [
                     breadcrumbs: ["Master", "Users"],
                 },
             },
+            {
+                path: "/dashboard/master/villa",
+                name: "dashboard.master.villa",
+                component: () => 
+                    import("@/pages/dashboard/master/villa/Index.vue"),
+                meta: {
+                    pageTitle: "Villa",
+                    breadcrumbs: ["Master", "Villa"],
+                    permission: "master-villa",
+                },
+            },
+            {
+                path: "/dashboard/master/villa_fasilitas",
+                name: "dashboard.master.villa.fasilitas",
+                component: () => 
+                    import("@/pages/dashboard/master/fasilitas/Index.vue"),
+                meta: {
+                    pageTitle: "villa Fasilitas",
+                    breadcrumbs: ["Master", "Villa Fasilitas"],
+                    permission: "master-fasilitas",
+                },
+            },
         ],
+    },
+    {
+        path: "/user/confirm/:uuid",
+        name: "booking.confirm",
+        component: () => import ("@/pages/landing-page/user/booking.vue"),
+    },
+    {
+        path: "/landing",
+        component: () => import('@/Layouts/Navbar.vue'),
+        children: [
+            {
+                path: '/landing/page',
+                name: 'landing.page',
+                component: () => import('@/pages/landing-page/pageuser/index.vue'),
+            },
+            {
+                path: '/landing/villa',
+                name: 'landing.villa',
+                component: () => import('@/pages/landing-page/user/villa.vue'),
+            },
+            {
+                path: '/landing/villa/detail/:uuid',
+                name: 'landing.detail',
+                component: () => import('@/pages/landing-page/user/detailvilla.vue'),
+            },
+        ]
     },
     {
         path: "/",

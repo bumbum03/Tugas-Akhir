@@ -87,4 +87,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getAllPermissions()->pluck('name');
     }
+
+    public function booking(){
+        return $this->hasOne(Booking::class);
+    }
 }

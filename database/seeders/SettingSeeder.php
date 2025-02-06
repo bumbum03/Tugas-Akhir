@@ -17,13 +17,13 @@ class SettingSeeder extends Seeder
         DB::table('settings')->truncate();
 
         Setting::create([
-            'app' => 'e-SAKIP DLH',
-            'description' =>  'Aplikasi e-SAKIP Dinas Lingkungan Hidup',
-            'logo' =>  '/media/logo.png',
-            'bg_auth' =>  '/media/misc/bg-auth.jpg',
+            'app' => 'VILLO Accomodation',
+            'description' =>  'Aplikasi Reservasi Villa',
+            'logo' =>  '/media/bb.jpg',
+            'bg_auth' =>  '/media/misc/bgmalam.jpg',
             'banner' =>  '/media/misc/banner.jpg',
-            'pemerintah' =>  'Pemerintah Provinsi Jawa Timur',
-            'dinas' =>  'Dinas Lingkungan Hidup',
+            'pemerintah' =>  'Pemerintahan Provinsi Jamaica',
+            'dinas' =>  'Dinas Lingkungan Villa',
             'alamat' =>  '',
             'telepon' =>  '',
             'email' =>  '',

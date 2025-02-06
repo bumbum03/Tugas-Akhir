@@ -4,6 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\VillaController;
+use App\Http\Controllers\villaFltsController;
+use App\Http\Controllers\villaImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +51,22 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
             Route::post('roles/store', [RoleController::class, 'store']);
             Route::apiResource('roles', RoleController::class)
                 ->except(['index', 'store']);
-        });
+                
+            });
+            Route::get('villa', [VillaController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('villa', [VillaController::class, 'index']);
+            Route::post('villa/store', [VillaController::class, 'store']);
+            Route::post('villa/city', [VillaController::class, 'showByCity'])->withoutMiddleware(['auth', 'verified']);
+            Route::apiResource('villa', VillaController::class)->except(['index', "store"]);
+
+            Route::get('villaFasilitas', [villaFltsController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('villaFasilitas', [villaFltsController::class, 'index']);
+            Route::post('villaFasilitas/store', [villaFltsController::class, 'store']);
+            Route::apiResource('villaFasilitas', villaFltsController::class)->except(['index', "store"]);
+
+            Route::get('villa_image', [villaImageController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('villa_image', [villaImageController::class, 'index'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('villa_image/store', [villaImageController::class, 'store']);
+            Route::apiResource('villa_image', villaImageController::class)->except(['index', "store"]);
     });
 });

@@ -124,7 +124,17 @@ export default defineComponent({
 
             axios.post("/auth/login", { ...this.data, type: "email" }).then(res => {
                 this.store.setAuth(res.data.user, res.data.token);
-                this.router.push("/dashboard");
+                if(res.data.user.role.id === 1) {
+                    this.router.push("/admin/dashboard");
+                } else if(res.data.user.role.id === 2) {
+                        const redirect = localStorage.getItem('lastWeb')
+                        if(redirect) {
+                            const cleanedURL = redirect.replace(/^(?:\/\/|[^/]+)*\//, ''); // Menghapus bagian "localhost:8000/" dari URL
+                        this.router.push(cleanedURL);
+                    } else {
+                    this.router.push("/landing/page");
+                    }
+                }
             }).catch(error => {
                 toast.error(error.response.data.message);
             }).finally(() => {

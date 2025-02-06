@@ -7,6 +7,8 @@ interface ICallback {
     onSettled?: Function;
 }
 
+/*************  ✨ Codeium Command ⭐  *************/
+/******  b9d9105b-9743-4b1a-85d0-89eb1b679e0d  *******/
 export const useDelete = (callback?: ICallback, swalMixin?: any) => {
     const mySwal = Swal.mixin(
         swalMixin || {

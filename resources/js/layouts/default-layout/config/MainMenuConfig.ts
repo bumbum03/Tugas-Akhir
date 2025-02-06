@@ -6,7 +6,7 @@ const MainMenuConfig: Array<MenuItem> = [
             {
                 heading: "Dashboard",
                 name: "dashboard",
-                route: "/dashboard",
+                route: "/admin/dashboard",
                 keenthemesIcon: "element-11",
             },
         ],
@@ -42,6 +42,17 @@ const MainMenuConfig: Array<MenuItem> = [
                             },
                         ],
                     },
+                    {
+                        heading: "Villa",
+                        name: "master-villa",
+                        route: "/dashboard/master/villa",
+                        
+                    },
+                    {
+                        heading: "Fasilitas Villa",
+                        name: "master-fasilitas",
+                        route: "/dashboard/master/villa_fasilitas",
+                    }
                 ],
             },
             {
