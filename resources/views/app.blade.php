@@ -9,6 +9,7 @@
   {{-- <link rel="stylesheet" href="/splash-screen.css"> --}}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La - `Villa</title>
+  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{config('midtrans.clientKey')}}"></script>
 
   <style>
     /* Style to hide the spinner arrows */

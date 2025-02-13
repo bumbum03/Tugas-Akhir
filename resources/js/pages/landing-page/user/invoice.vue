@@ -19,6 +19,21 @@ const formatPrice = (value: number): string => {
   }).format(value);
 };
 
+const formatted = computed(() => {
+  return formatPrice(datas.value.total_price)
+});
+
+const getBooking = async (uuid) => {
+    try {
+        const response = await axios.get(`/master/booking_room/${uuid}`)
+    datas.value = response.data.booking_room
+  } catch (err) {
+    console.error(err)
+    }
+}
+
+
+
 
 
 

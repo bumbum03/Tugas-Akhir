@@ -69,24 +69,6 @@ onMounted(() => {
     });
 });
 
-onMounted(async () => {
-  const midtransScript = document.createElement("script");
-  midtransScript.setAttribute(
-    "src",
-    "https://app.sandbox.midtrans.com/snap/snap.js"
-    );
-    midtransScript.setAttribute(
-      "data-client-key",
-      "SB-Mid-client-lrA_38wnpKudxLx1",
-    );
-    document.head.appendChild(midtransScript);
-
-    midtransScript.onload = () => {
-      console.log("Midtrans Snap loaded successfully");
-    };
-
-    fetchVilla(route.params.uuid);
-});
 
 const formatDate = (dateString) => {
     if (isValidDate(dateString)) {
@@ -148,46 +130,55 @@ function processPayment() {
         });
     } else {
       // Jika pembayaran menggunakan metode Online,
-      axios({
-        method: "post",
-        url: "/master/booking_room/store",
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-        .then ((data) => {
-          if (data.data.success) {
-            const datas = new FormData();
-            datas.append('name', booking_room.value.name)
-            datas.append('email', booking_room.value.email)
-            datas.append('phone', booking_room.value.phone)
-            datas.append('booking_room_id', data.data.booking_room.id)
+      axios.post("/master/booking_room/store", formData,)
+        .then ((response) => {
+          if (response.data.success) {
+            snap.pay(response.data.token, {
+              onSuccess: (result) => {
+                axios.get(`/master/booking_room/status/${response.data.villa.uuid}`)
+                .then((result) => {
+                  console.log(result);
+                  toast.success("Pembayaran berhasil");
+                  router.push(`/user/invoice/${response.data.booking_room.uuid}`);
+                })
+              },
+              onPending: (result) => {
+                console.log(result)
+                toast.info("Menunggu pembayaran");
+                router.push(`/user/invoice/${response.data.booking_room.villa.uuid}`);
+              },
+              onError: (result) => {
+                console.log(result)
+              }
+            })
+            // const datas = new FormData();
+            // datas.append('name', booking_room.value.name)
+            // datas.append('email', booking_room.value.email)
+            // datas.append('phone', booking_room.value.phone)
+            // datas.append('booking_room_id', data.data.booking_room.id)
 
-            axios.post('/master/guest/store', datas, {
-              headers: {"Content-Type": "multipart/form-data"}
-            }).then(() => {
-              if(window.snap && data.data.token) {
-                window.snap.pay(data.data.token, {
-                  onSucces: function(result) {
-                    toast.success("Pembayaran berhasil");
-                    router.push(`/user/invoice/${data.data.booking_room.uuid}`);
-                  },
-                  onPending: function(result) {
-                    toast.info("Menunggu pembayaran");
-                    router.push(`/user/invoice/${data.data.booking_room.uuid}`);
-                  },
-                  onError: function(result) {
-                    toast.error("Pembayaran gagal");
-                },
-                onClose: function(result) {
-                    toast.error("Pembayaran dibatalkan");
-                }
-            });
+            // axios.post('/master/guest/store', datas, {
+            //   headers: {"Content-Type": "multipart/form-data"}
+            // }).then(() => {
+            //   if(window.snap && data.data.token) {
+            //     window.snap.pay(data.data.token, {
+            //       onSucces: function(result) {
+            //         toast.success("Pembayaran berhasil");
+            //         router.push(`/user/invoice/${data.data.booking_room.uuid}`);
+            //       },
+            //       onPending: function(result) {
+            //         toast.info("Menunggu pembayaran");
+            //         router.push(`/user/invoice/${data.data.booking_room.uuid}`);
+            //       },
+            //       onError: function(result) {
+            //         toast.error("Pembayaran gagal");
+            //     },
+            //     onClose: function(result) {
+            //         toast.error("Pembayaran dibatalkan");
+            //     }
+            // });
           } else {
             toast.error("Gagal memproses pembayaran")
-          }
-        })
           }
         })
         .catch((err: any) => {

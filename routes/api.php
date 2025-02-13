@@ -73,5 +73,6 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
             Route::get('booking_room', [bookingController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
             Route::post('booking_room', [bookingController::class, 'index'])->withoutMiddleware(['auth', 'verified']);
             Route::post('booking_room/store', [bookingController::class, 'store']);
+            Route::get('booking_room/status/{uuid}', [bookingController::class, 'status'])->withoutMiddleware(['auth', 'verified']);
     });
 });
