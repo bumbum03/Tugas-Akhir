@@ -24,6 +24,7 @@ class Villa extends Model
         'price',
         'kota_id',
         'fasilitas_id',
+        'status'
     ];
 
     public function villaFasilitas()

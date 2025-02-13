@@ -34,6 +34,7 @@ class VillaStoreRequest extends FormRequest
             'check_out' => 'required',
             'price' => 'required',
             'kota_id' => 'required',
+            'status' => 'required',
         ];
     }
 }

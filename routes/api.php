@@ -7,6 +7,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VillaController;
 use App\Http\Controllers\villaFltsController;
 use App\Http\Controllers\villaImageController;
+use App\Http\Controllers\bookingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,7 +58,7 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
             Route::post('villa', [VillaController::class, 'index']);
             Route::post('villa/store', [VillaController::class, 'store']);
             Route::post('villa/city', [VillaController::class, 'showByCity'])->withoutMiddleware(['auth', 'verified']);
-            Route::apiResource('villa', VillaController::class)->except(['index', "store"]);
+            Route::apiResource('villa', VillaController::class)->except(['index', "store"])->withoutMiddleware(['auth', 'verified']);
 
             Route::get('villaFasilitas', [villaFltsController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
             Route::post('villaFasilitas', [villaFltsController::class, 'index']);
@@ -68,5 +69,9 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
             Route::post('villa_image', [villaImageController::class, 'index'])->withoutMiddleware(['auth', 'verified']);
             Route::post('villa_image/store', [villaImageController::class, 'store']);
             Route::apiResource('villa_image', villaImageController::class)->except(['index', "store"]);
+
+            Route::get('booking_room', [bookingController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('booking_room', [bookingController::class, 'index'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('booking_room/store', [bookingController::class, 'store']);
     });
 });

@@ -25,7 +25,8 @@ return new class extends Migration
             $table->date('end_date');
             $table->unsignedBigInteger('villa_id');
             $table->unsignedBigInteger('user_id');
-            $table->enum('status', ['Active', 'Non Active'])->default('active');
+            $table->foreign('villa_id')->references('id')->on('villas')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

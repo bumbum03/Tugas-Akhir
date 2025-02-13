@@ -19,7 +19,7 @@ class SettingSeeder extends Seeder
         Setting::create([
             'app' => 'VILLO Accomodation',
             'description' =>  'Aplikasi Reservasi Villa',
-            'logo' =>  '/media/bb.jpg',
+            'logo' =>  '/media/misc/logoss.png',
             'bg_auth' =>  '/media/misc/bgmalam.jpg',
             'banner' =>  '/media/misc/banner.jpg',
             'pemerintah' =>  'Pemerintahan Provinsi Jamaica',

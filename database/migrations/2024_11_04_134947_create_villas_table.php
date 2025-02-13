@@ -26,6 +26,7 @@ return new class extends Migration
             $table->time('check_out');
             $table->double('price');
             $table->string('kota_id');
+            $table->enum('status', ['Active', 'Non Active'])->default('active');
             $table->timestamps();
         });
     }

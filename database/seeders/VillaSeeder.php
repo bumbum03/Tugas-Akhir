@@ -26,6 +26,7 @@ class VillaSeeder extends Seeder
             'check_out' => '10:00',
             'price' => '900000',
             'kota_id' => '3579',
+            'status' => 'Active'
         ]);
     }
 }

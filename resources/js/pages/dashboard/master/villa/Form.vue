@@ -62,6 +62,7 @@ const formSchema = Yup.object().shape({
         .of(Yup.string().required("Fasilitas harus diisi"))
         .min(1, "Fasilitas harus diisi"),
     image: Yup.string(),
+    status: Yup.string().required("Status harus diisi"),
 });
 
 function getEdit() {
@@ -94,6 +95,7 @@ function submit() {
     formData.append("check_out", villa.value.check_out);
     formData.append("price", villa.value.price);
     formData.append("kota_id", villa.value.kota_id);
+    formData.append("status", villa.value.status);
 
     villa.value.fasilitas_id.forEach((item: any) => {
         formData.append("fasilitas_id[]", item);
@@ -501,6 +503,28 @@ watch(
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-15">
+          <div class="fv-row mb-7">
+            <label class="form-label fw-bold fs-5">Villa Status</label>
+            <Field name="status" type="hidden" v-model="villa.status">
+              <select2
+                placeholder="Choose Villa Status"
+                class="form-select-solid"
+                name="status"
+                v-model="villa.status"
+                :options="[
+                  { id: '1', text: 'Active' }, { id: '2', text: 'Non Active' }
+                ]"
+              ></select2>
+            </Field>
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <ErrorMessage name="status" />
+              </div>
+            </div>
+          </div>
+        </div>
 
                 <div class="col-md-12">
                     <div class="fv-row mb-7">

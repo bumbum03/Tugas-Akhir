@@ -39,7 +39,7 @@ const columns = [
     column.accessor("email", {
         header: "Email",
     }),
-    column.accessor("Alamat", {
+    column.accessor("alamat", {
         header: "Alamat", 
     }),
     column.accessor("uuid", {

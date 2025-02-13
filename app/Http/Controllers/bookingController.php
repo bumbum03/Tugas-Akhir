@@ -8,6 +8,8 @@ use App\Http\Requests\bookingStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class bookingController extends Controller
 {
@@ -46,15 +48,58 @@ class bookingController extends Controller
     {
         $validatedData = $request->validated();
 
-        $price = $validatedData['total_price'];
-
         $validatedData['booking_number'] = 'BOOK' . rand(100000, 999999);
         $validatedData['payment_status'] = 'Draft';
-        $validatedData['status'] = 'Active';
+
+        Config::$serverKey = getenv('MIDTRANS_SERVER_KEY');
+        Config::$clientKey = getenv('MIDTRANS_CLIENT_KEY');
+        Config::$isProduction = false;
 
         $villa = Villa::find($validatedData['villa_id']);
+        $villa->update(['status' => 'Non Active']);
 
-        //bersambung.....
+        // $book = $validatedData['booking_number'];
+        // $end = $validatedData['end_date'];
+
+        $data = Booking::create($validatedData);
+
+        if($request->payment_type == '2') {
+            $midtransParams = [
+                'transaction_details' => [
+                    'order_id' => $data->booking_number,
+                    'gross_amount' => (int) $request->total_price,
+                ],
+            ];
+            try {
+                $snapToken = Snap::getSnapToken($midtransParams);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Sukses menyimpan data',
+                    'booking_room' => $data,
+                    'token' => $snapToken
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error creating midtrans transaction:' . $e->getMessage(), 
+                ], 500);
+            }
+        }
+
+
+
+        if(!$data){
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menyimpan data'
+            ], 500);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sukses menyimpan data',
+            'booking_room' => $data,
+        ]);
     }
 
     /**

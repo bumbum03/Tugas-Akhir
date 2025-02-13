@@ -30,6 +30,7 @@ const searchVilla = computed(() => {
     });
 });
 
+
 </script>
 
 

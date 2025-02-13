@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use KodePandai\Indonesia\Models\City;
+use App\Models\Booking;
 
 class VillaController extends Controller
 {
@@ -76,8 +77,7 @@ class VillaController extends Controller
     }
 
     public function showByCity (Request $request) {
-        $data = Villa::with(['villaFasilitas','villaImage'])->where('kota_id', $request->city)->get();
-
+        $data = Villa::with(['villaFasilitas','villaImage'])->where('kota_id', $request->city)->where('status', 'Active')->get();
 
         $city = City::where('code', $request->city)->first();
 
