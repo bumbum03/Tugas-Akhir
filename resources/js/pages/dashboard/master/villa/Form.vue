@@ -52,10 +52,17 @@ const formSchema = Yup.object().shape({
         .required("Email harus diisi"),
     nomor: Yup.string()
         .matches(/^0\d{9,13}$/, "Nomor Telepone harus valid")
+        .matches(/^[^+\-*/%]+$/, "Nomor tidak boleh mengandung simbol +, -, *, % dan karakter lainnya")
         .required("Nomor harus diisi"),
     tahun_dibangun: Yup.string().nullable(),
-    total_kamar: Yup.number().required("Total kamar harus diisi"),
-    kapasitas: Yup.number().required("Kapasitas harus diisi"),
+    total_kamar: Yup.string()
+        .matches(/^0\d{9,13}$/, "Total Kamar harus diisi dengan angka")
+        .matches(/^[^+\-*/%]+$/, "Tidak boleh mengandung simbol +, -, *, % dan karakter lainnya")
+        .required("Total kamar harus diisi"),
+    kapasitas: Yup.string()
+        .matches(/^0\d{9,13}$/, "Kapasitas harus diisi dengan angka")
+        .matches(/^[^+\-*/%]+$/, "Tidak boleh mengandung simbol +, -, *, % dan karakter lainnya")
+        .required("Kapasitas harus diisi"),
     kota_id: Yup.string().required("Kota harus diisi"),
     price: Yup.number().required("Harga harus diisi"),
     fasilitas_id: Yup.array()
@@ -319,6 +326,7 @@ watch(
                             name="total_kamar"
                             autocomplete="off"
                             v-model="villa.total_kamar"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             placeholder="Masukkan Total Kamar"
                         />
                         <div class="fv-plugins-message-container">
@@ -340,6 +348,7 @@ watch(
                             name="kapasitas"
                             autocomplete="off"
                             v-model="villa.kapasitas"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             placeholder="Masukkan Kapasitas"
                         />
                         <div class="fv-plugins-message-container">
@@ -437,6 +446,7 @@ watch(
                                 name="price"
                                 autocomplete="off"
                                 v-model="villa.price"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 placeholder="Input Room Price"
                             />
                         </div>

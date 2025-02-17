@@ -115,6 +115,16 @@ class VillaController extends Controller
             'villa' => $Villa
         ]);
     }
+
+
+    public function toggleStatus(Request $request, $uuid){
+        $item  = Villa::where('uuid',$uuid)->firstOrFail();
+
+        $item->status = $item->status === 'Active' ? 'Non Active' : 'Active';
+        $item->save();
+
+        return response()->json(['message' => 'Status updated successfully'], 200);
+    }
     
     /**
      * Remove the specified resource from storage.

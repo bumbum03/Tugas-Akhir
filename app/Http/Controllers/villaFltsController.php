@@ -55,7 +55,7 @@ class villaFltsController extends Controller
     {
         $villaFasilitas = VillaFasilitas::findByUuid($uuid);
         return response()->json([
-            'VillaFasilitas' => $villaFasilitas
+            'villaFasilitas' => $villaFasilitas
         ]);
     }
 
@@ -64,7 +64,7 @@ class villaFltsController extends Controller
      */
     public function update(villaFltsStoreRequest $request, $uuid)
     {
-        $villaFasilitas = VillaFasilitas::find($uuid);
+        $villaFasilitas = VillaFasilitas::findByUuid($uuid);
 
         $validatedData = $request->validated();
 

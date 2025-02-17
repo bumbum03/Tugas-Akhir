@@ -31,7 +31,7 @@ const columns = [
     column.accessor("booking_number", {
         header: "Booking Number",
     }),
-    column.accessor("villa.name", {
+    column.accessor("villa.nama", {
         header: "Villa",
     }),
     column.accessor("payment_type", {
@@ -40,34 +40,53 @@ const columns = [
     column.accessor("uuid", {
         header: "Status",
         cell: (cell) => 
-            h("div", { class: "d-flex gap-2"}, [
+            h("div", { class: "d-flex gap-3"}, [
                 h(
                     "input",
                     {
                         type: "button",
-                        class: cell.row.original.payment_status == 'Completed' ? "btn btn-sm btn-icon btn-success w-75 px-4"  : "btn btn-sm btn-icon btn-secondary w-75 px-4",
+                        class: cell.row.original.payment_status == 'Completed' ? "btn btn-sm btn-icon btn-success w-100 px-4"  : "btn btn-sm btn-icon btn-secondary w-100 px-4",
+                        onClick: () => updateStatus(cell.getValue()),
                         value: cell.row.original.payment_status == 'Completed' ? "Completed" : "Draft",
                     },
                     [
                         h("i", { class: "&nbsp"})
                     ]
                 ),
-                cell.row.original.payment_type === 'Offline' ? (
-                    h(
-                        "button",
-                        {
-                            class: "btn btn-sm btn-icon btn-info w-20 px-4",
-                            onClick: cell.row.original.payment_type === 'Offline' ? () => {
-                                selected.value = cell.getValue();
-                                openForm.value = true;
-                            } : null,
-                        },
-                        h("i", { class: "fa-solid fa-camera fs-3" })
-                    )
-                ) : null,
+                // cell.row.original.payment_type === 'Offline' ? (
+                //     h(
+                //         "button",
+                //         {
+                //             class: "btn btn-sm btn-icon btn-info w-20 px-4",
+                //             onClick: cell.row.original.payment_type === 'Offline' ? () => {
+                //                 selected.value = cell.getValue();
+                //                 openForm.value = true;
+                //             } : null,
+                //         },
+                //         h("i", { class: "fa-solid fa-camera fs-3" })
+                //     )
+                // ) : null,
             ])
     }),
 ];
+
+function updateStatus(uuid) {
+    block(document.querySelector("table"));
+    axios({
+        method: "post",
+        url: `/master/booking_room/${uuid}/change-status`,
+    })
+    .then(() => {
+        refresh()
+        toast.success("Data berhasil disimpan");
+    })
+    .catch((err: any) => {
+        toast.error(err.response.data.message);
+    })
+    .finally(() => {
+        unblock(document.querySelector("table"));
+    });
+}
 
 const refresh = () => paginateRef.value.refetch();
 

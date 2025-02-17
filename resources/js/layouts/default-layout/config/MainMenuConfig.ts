@@ -61,6 +61,12 @@ const MainMenuConfig: Array<MenuItem> = [
                 name: "setting",
                 keenthemesIcon: "setting-2",
             },
+            {
+                heading: "Booking",
+                route: "/dashboard/booking",
+                name: "booking",
+                keenthemesIcon: "office-bag",
+            },
         ],
     },
 ];

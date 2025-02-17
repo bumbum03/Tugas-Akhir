@@ -7,7 +7,7 @@
                 <img
                     :src="setting?.logo"
                     :alt="setting?.app"
-                    class="w-200px mb-8"
+                    class="w-100px mb-4"
                 />
             </router-link>
             <!--begin::Title-->
@@ -44,14 +44,23 @@
 
         <div class="border-bottom border-gray-300 w-100 mt-5 mb-10"></div>
 
-        <!--begin::Link-->
-        <!-- <div class="text-gray-400 fw-semobold fs-4 text-center">
-            {{ $t('login.daftar_label') }}
-
-            <router-link to="/auth/sign-up" class="link-primary fw-bold">
-                {{ $t('login.daftar') }}
+        <div class="reset text-gray-400 fw-semibold fs-5 fw-bold text-center mb-5">
+            <router-link
+                :to="'/reset-pass'"
+                class="text-white text-decoration-none"
+            >
+                Lupa Password atau Ingin Mengganti Password?
             </router-link>
-        </div> -->
+        </div>
+
+        <!--begin::Link-->
+        <div class="text-gray-400 fw-semobold fs-4 text-center">
+            {{ $t("Dont have an account yet?") }}
+
+            <router-link to="/sign-up" class="link-primary fw-bold">
+                {{ $t("Register Now!") }}
+            </router-link>
+        </div>
         <!--end::Link-->
     </div>
     <!--end::Form-->
@@ -149,3 +158,14 @@ export default defineComponent({
     },
 });
 </script>
+
+<style>
+.reset a {
+    color: grey\ !important;
+    text-decoration: none !important;
+}
+
+.reset a:hover {
+    color: white !important;
+}
+</style>

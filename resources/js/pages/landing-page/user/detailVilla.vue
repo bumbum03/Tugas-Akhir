@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, defineComponent, computed } from "vue";
+import { currency } from "@/libs/utils";
 import { useRoute, useRouter } from "vue-router";
 import axios from "@/libs/axios";
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
@@ -110,7 +111,7 @@ const uuid = route.params.uuid
                                     <div class="card-body text-center">
                                         <i class="fas fa-money-bill-wave mb-2 fs-4"></i>
                                         <h6 class="mb-0">Price</h6>
-                                        <p class="mb-0 fw-bold">{{ villa.price }}</p>
+                                        <p class="mb-0 fw-bold">{{ currency(villa.price) }}</p>
                                     </div>
                                 </div>
                             </div>

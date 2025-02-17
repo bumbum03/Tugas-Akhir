@@ -51,6 +51,17 @@ const routes: Array<RouteRecordRaw> = [
                     breadcrumbs: ["Website", "Setting"],
                 },
             },
+            {
+                path: "/dashboard/booking",
+                name: "dashboard.booking",
+                component: () => 
+                    import ("@/pages/dashboard/booking/index.vue"),
+                meta: {
+                    pageTitle: "Booking",
+                    breadcrumbs: ["Master", "Booking"],
+                    permission: "booking"
+                },
+            },
 
             // MASTER
             {
@@ -101,6 +112,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "/user/confirm/:uuid",
         name: "booking.confirm",
         component: () => import ("@/pages/landing-page/user/booking.vue"),
+        meta: {
+            middleware: "auth",
+        }
+    },
+    {
+        path: "/user/invoice/:uuid",
+        name: "booking.invoice",
+        component: () => import ("@/pages/landing-page/user/invoice.vue"),
     },
     {
         path: "/landing",
@@ -121,6 +140,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'landing.detail',
                 component: () => import('@/pages/landing-page/user/detailvilla.vue'),
             },
+            {
+                path: '/landing/page/history',
+                name: 'landing.history',
+                component: () => import('@/pages/landing-page/user/history.vue'),
+            },
         ]
     },
     {
@@ -135,6 +159,29 @@ const routes: Array<RouteRecordRaw> = [
                     pageTitle: "Sign In",
                     middleware: "guest",
                 },
+            },
+            {
+                path: "/sign-up",
+                name: "sign-up",
+                component: () => import("@/pages/auth/sign-up/Sign.vue"),
+                meta: {
+                    pageTitle: "Sign Up",
+                    middleware: "guest",
+                },
+            },
+            {
+                path: "/reset-pass",
+                name: "reset-pass",
+                component: () => import("@/pages/auth/sign-in/tabs/ResetPass.vue"),
+                meta: {
+                    pageTitle: "Sign In",
+                    middleware: "guest",
+                },
+            },
+            {
+                path: "/sign-in/admin",
+                name: "sign-in.admin",
+                component: () => import("@/pages/auth/sign-in/Admin.vue")
             },
         ],
     },

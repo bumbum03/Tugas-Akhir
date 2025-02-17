@@ -109,14 +109,20 @@ function processPayment() {
         },
       })
 
-        .then((data) => {
-          if (data.data.success) {
-            toast.success(data.data.message);
-            formRef.value.resetForm();
-            router.push(`/user/invoice/${data.data.booking_room.uuid}`)
-            setTimeout(() => {
-              localStorage.removeItem('lastWeb')
-            }, 3000);
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(response.data.message);
+            // formRef.value.resetForm();
+            const bookingUuid = response.data.booking_room.uuid;
+            console.log(bookingUuid);
+                if (bookingUuid) {
+                    router.push(`/user/invoice/${bookingUuid}`);
+                    setTimeout(() => {
+                        localStorage.removeItem('lastWeb');
+                    }, 3000);
+                } else {
+                    toast.error("Unable to find booking reference");
+                }
           } else {
             toast.error("Gagal menyimpan data");
           }
@@ -135,7 +141,7 @@ function processPayment() {
           if (response.data.success) {
             snap.pay(response.data.token, {
               onSuccess: (result) => {
-                axios.get(`/master/booking_room/status/${response.data.villa.uuid}`)
+                axios.get(`/master/booking_room/status/${response.data.villa.uuid}?uuid=${response.data.booking_room.uuid}`)
                 .then((result) => {
                   console.log(result);
                   toast.success("Pembayaran berhasil");

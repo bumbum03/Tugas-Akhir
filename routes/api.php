@@ -8,6 +8,7 @@ use App\Http\Controllers\VillaController;
 use App\Http\Controllers\villaFltsController;
 use App\Http\Controllers\villaImageController;
 use App\Http\Controllers\bookingController;
+use App\Models\Booking;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +25,10 @@ use Illuminate\Support\Facades\Route;
 // Authentication Route
 Route::middleware(['auth', 'json'])->prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth');
+    Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth');
     Route::delete('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
+    Route::post('reset-pass', [AuthController::class, 'resetPass'])->withoutMiddleware('auth');
 });
 
 Route::prefix('setting')->group(function () {
@@ -58,6 +61,7 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
             Route::post('villa', [VillaController::class, 'index']);
             Route::post('villa/store', [VillaController::class, 'store']);
             Route::post('villa/city', [VillaController::class, 'showByCity'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('villa/{uuid}/toggle-status', [VillaController::class, 'toggleStatus'])->withoutMiddleware(['auth', 'verified']);
             Route::apiResource('villa', VillaController::class)->except(['index', "store"])->withoutMiddleware(['auth', 'verified']);
 
             Route::get('villaFasilitas', [villaFltsController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
@@ -71,8 +75,14 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
             Route::apiResource('villa_image', villaImageController::class)->except(['index', "store"]);
 
             Route::get('booking_room', [bookingController::class, 'get'])->withoutMiddleware(['auth', 'verified']);
+            Route::get('booking_room/{uuid}', [bookingController::class, 'show'])->withoutMiddleware(['auth', 'verified']);
             Route::post('booking_room', [bookingController::class, 'index'])->withoutMiddleware(['auth', 'verified']);
             Route::post('booking_room/store', [bookingController::class, 'store']);
+            Route::get('booking_room/update-status/{uuid}', [bookingController::class, 'updateStatus'])->withoutMiddleware(['auth', 'verified']);
             Route::get('booking_room/status/{uuid}', [bookingController::class, 'status'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('booking/history', [bookingController::class, 'history'])->withoutMiddleware(['auth', 'verified']);
+            Route::post('booking_room/{uuid}/change-status', [bookingController::class, 'changeStatus'])->withoutMiddleware(['auth', 'verified']);
+            Route::apiResource('booking_room', bookingController::class)
+                ->except(['index', 'store'])->withoutMiddleware(['auth', 'verified']);
     });
 });

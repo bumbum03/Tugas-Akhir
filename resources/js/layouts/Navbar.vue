@@ -1,32 +1,34 @@
 <script>
-import { defineComponent } from 'vue';
-import { RouterView, useRouter } from 'vue-router';
-import { useSetting } from '@/services';
-import { useAuthStore } from '@/stores/auth';
-import Swal from 'sweetalert2';
+import { defineComponent } from "vue";
+import { RouterView, useRouter } from "vue-router";
+import { useSetting } from "@/services";
+import { useAuthStore } from "@/stores/auth";
+import Swal from "sweetalert2";
 
 export default {
     setup() {
-        const { data: setting = {} } = useSetting()
-        const auth = localStorage.getItem('auth_key')
-        const store = useAuthStore()
+        const { data: setting = {} } = useSetting();
+        const auth = localStorage.getItem("auth_key");
+        const store = useAuthStore();
         return {
-            setting, auth, store
-        }
+            setting,
+            auth,
+            store,
+        };
     },
     data() {
         return {
             isOpen: false,
-            scrolled: false
-        }
+            scrolled: false,
+        };
     },
     methods: {
         toggle() {
-            this.isOpen = !this.isOpen
+            this.isOpen = !this.isOpen;
         },
         handleResize() {
             if (window.innerWidth >= 768) {
-                this.isOpen = false
+                this.isOpen = false;
             }
         },
         handleScroll() {
@@ -52,66 +54,111 @@ export default {
                         icon: "success",
                         text: "Exit Succesful",
                     }).then(() => {
-                        window.location.reload()
+                        window.location.reload();
                     });
                 }
             });
         },
     },
     mounted() {
-        window.addEventListener('resize', this.handleResize)
-        window.addEventListener('scroll', this.handleScroll)
+        window.addEventListener("resize", this.handleResize);
+        window.addEventListener("scroll", this.handleScroll);
     },
     beforeDestroy() {
-        window.removeEventListener('resize', this.handleResize)
-        window.removeEventListener('scroll', this.handleScroll)
+        window.removeEventListener("resize", this.handleResize);
+        window.removeEventListener("scroll", this.handleScroll);
     },
-}
+};
 </script>
 
 <template>
     <main>
-        <nav :class="['navbar navbar-expand-lg fixed-top transition-all', scrolled ? 'scrolled' : '']">
+        <nav
+            :class="[
+                'navbar navbar-expand-lg fixed-top transition-all',
+                scrolled ? 'scrolled' : '',
+            ]"
+        >
             <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img src="/media/misc/logoss.png" alt="Logo" height="50">
+                <a class="navbar-brand" href="/landing/page">
+                    <img src="/media/misc/logoss.png" alt="Logo" height="50" />
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a
+                                class="nav-link"
+                                aria-current="page"
+                                href="/landing/page"
+                                >Home</a
+                            >
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="/landing/page/history"
+                                >History</a
+                            >
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
                                 Services
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Service 1</a></li>
-                                <li><a class="dropdown-item" href="#">Service 2</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Custom Service</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Service 1</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Service 2</a
+                                    >
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Custom Service</a
+                                    >
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>
-                        <li class="nav-item ms-2">
-                            <button @click="signOut" class="btn btn-outline-primary">
+                        <li v-if="store.isAuthenticated" class="nav-item">
+                            <a @click.prevent="signOut" class="nav-link">
                                 Logout
-                            </button>
+                            </a>
+                        </li>
+                        <li v-else class="nav-item ms-2">
+                            <router-link class="btn btn-primary" to="/sign-in"
+                                >Sign In</router-link
+                            >
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <RouterView style="min-height: 100vh; padding-top: 80px;"/>
+        <RouterView style="min-height: 100vh; padding-top: 80px" />
         <footer class="footer">
             <div class="footer-content">
                 <div class="container">
@@ -119,7 +166,8 @@ export default {
                         <div class="col-md-4">
                             <h5 class="footer-title">About Us</h5>
                             <p class="footer-text">
-                                Your company description goes here. Make it engaging and informative.
+                                Your company description goes here. Make it
+                                engaging and informative.
                             </p>
                         </div>
                         <div class="col-md-4">
@@ -146,7 +194,9 @@ export default {
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <p class="mb-0">© 2024 Your Company. All rights reserved.</p>
+                            <p class="mb-0">
+                                © 2024 Your Company. All rights reserved.
+                            </p>
                         </div>
                         <div class="col-md-6 text-md-end">
                             <a href="#" class="me-3">Privacy Policy</a>
@@ -196,7 +246,7 @@ export default {
 }
 
 .nav-link::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 50%;
     bottom: 0;
@@ -230,7 +280,7 @@ export default {
 }
 
 .footer-title::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     bottom: -8px;
@@ -296,7 +346,7 @@ export default {
     .footer-bottom {
         text-align: center;
     }
-    
+
     .footer-bottom .text-md-end {
         text-align: center !important;
         margin-top: 1rem;

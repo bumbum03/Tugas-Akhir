@@ -1,5 +1,6 @@
 <template>
-    <VForm class="form w-100" @submit="submit" :validation-schema="login">
+<VForm class="form w-100" @submit="submit" :validation-schema="login">
+    <h2 class="justify-content-center text-center mb-20">Selamat Datang Admin</h2>
         <!--begin::Input group-->
         <div class="fv-row mb-10">
             <!--begin::Label-->
@@ -75,6 +76,18 @@
                 </span>
             </button>
             <!--end::Submit button-->
+        </div>
+
+        <div class="border-bottom border-gray-300 w-100 mt-5 mb-10"></div>
+
+
+        <div class="reset text-gray-400 fw-semibold fs-5 fw-bold text-center mb-5">
+            <router-link
+                :to="'/reset-pass'"
+                class="text-white text-decoration-none"
+            >
+                Ingin Mengganti Password?
+            </router-link>
         </div>
         <!--end::Actions-->
     </VForm>
